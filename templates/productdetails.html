@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        {{ product.pro_desc|truncatewords:120 }}
+{% endblock %}
+{% block title %}
+        {{ product.pro_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="div-spacing-header ">
+        <p> <a href="{% url 'shops:AllCatProduct'%}"> Home</a> | <a href="{{product.pro_category.get_url}}">{{ product.pro_category}} </a>  | {{product.pro_name}}</p>
+    </div>
+
+
+    <div class=" product-box">
+        <div class="row ">
+            <div class=" text-center col-md-6 ">
+                <img class="product-image " src="{{product.pro_image.url}}" alt="{{product.pro_name}}">
+            </div>
+            <div class=" col-md-6 ">
+                <div class="product-detail-box">
+                    <h1>{{product.pro_name}}</h1>
+                    <p> <b> Price : ₹{{product.pro_price}}</b> </p>
+                    <p>{{product.pro_desc}} </p>
+                    <div class="row">
+                    {% if product.pro_stock <= 0 %}
+                        <p class="btn btn-danger">Out of stock </p>
+                    {% else %}
+                        <a href="{% url 'cart:add_to_cart' product.id %}" class="btn btn-secondary">Add to cart <i class="fa fa-shopping-cart"></i> </a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

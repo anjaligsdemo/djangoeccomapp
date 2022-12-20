@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        {{ product.pro_desc|truncatewords:120 }}
+{% endblock %}
+{% block title %}
+        {{ product.pro_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if not cart_products%}
+
+        <div class=" no-result-center text-center ">
+            <div class="nav-heading">
+                <p> Your shopping cart is empty </p>
+            </div>
+
+            <div class="text-center">
+                <a  href="{% url 'shops:AllCatProduct' %}">click here continue shopping </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="div-spacing-header text-center nav-heading ">
+            <p> Your shopping cart</p>
+        </div>
+        <div class="row mx-auto">
+            <div class="col-md-6">
+                <div class="div-spacing-header text-center nav-heading">
+                    <p> your cart items</p>
+                </div>
+                {% for each in cart_products%}
+                    <div class="row product-box  ">
+                        <div class="col-md-6 ">
+                            <img class=" " src="{{each.product.pro_image.url}}" alt="{{each.product.pro_name}}">
+                        </div>
+                        <div class="col-md-6  ">
+                            <div>
+                                {{each.product.pro_desc}}
+                                <i class="fa fa-plus" aria-hidden="true"> +</i>
+                            </div>
+                            <div>
+                                <i class="fa fa-minus" aria-hidden="true">-</i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                iPhone 13 Pro. Super Retina XDR display with ProMotion; 6.1‑inch (diagonal) all‑screen OLED display; 2532‑by‑1170-pixel resolution at 460 ppi.
+                iPhone 13 Pro. Super Retina XDR display with ProMotion; 6.1‑inch (diagonal) all‑screen OLED display; 2532‑by‑1170-pixel resolution at 460 ppi.
+                iPhone 13 Pro. Super Retina XDR display with ProMotion; 6.1‑inch (diagonal) all‑screen OLED display; 2532‑by‑1170-pixel resolution at 460 ppi.
+            </div>
+        </div>
+
+    {% endif %}
+
+
+
+</div>
+
+{% endblock %}

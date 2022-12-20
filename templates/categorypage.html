@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.cat_desc|truncatewords:120 }}
+    {% else %}
+        Just shopping
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.cat_name }}
+    {% else %}
+        Shops
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="div-spacing">
+    {% if category %}
+        <div >
+            <h1>{{category.cat_name}}</h1>
+            <p> {{category.cat_desc}} </p>
+        </div>
+        <div class="text-center div-spacing">
+            <img src="{{category.cat_image.url}}" alt="{{category.cat_name}}" width="1296" height="550">
+        </div>
+
+    {% else %}
+        <div class="text-center" >
+            <img  src="{% static 'img/banner.png' %}" alt="logoimage" width="1296" height="550">
+        </div>
+        <div class="div-spacing" >
+            <h1>Find your dream products </h1>
+            <p> If you are still wondering about where to buy the Dream products? Just get them online from Shops India, which offers a huge range of Dream products at discount.  </p>
+        </div>
+    {% endif %}
+</div>
+<div class="products-box">
+    <div class="container div-spacing">
+        <div class="row mx_auto">
+            {%for each in products %}
+            <div class=" card-margin row   col-md-4 ">
+                <div class="card card-center " style="width: 18rem;">
+                    <a href="{{each.get_url}}"> <img src="{{each.pro_image.url}}" class="card-img-top item" alt="{{each.pro_name}}"> </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ each.pro_name }}</h5>
+                        <p class="card-text"> Price : ₹{{ each.pro_price }}</p>
+                        {% if each.pro_stock <= 0 %}
+                            <p class="btn btn-danger"> Out of stock </p>
+                        {% else %}
+                            <a href="{% url 'cart:add_to_cart' each.id %}" class="btn btn-primary">Add to Cart</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center products-box ">
+            {% if products.paginator.num_pages > 1 %}
+                <div>
+                    {% for each in products.paginator.page_range %}
+                        <a href="?page={{each}}" class="btn btn-light bt-sm {% if products.number == each %} active {% endif%}">{{each}}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

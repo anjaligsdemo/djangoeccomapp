@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        {{ product.pro_desc|truncatewords:120 }}
+{% endblock %}
+{% block title %}
+        {{ product.pro_name }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if products %}
+    <div class="div-spacing-header text-center nav-heading ">
+        <p> Search result for " {{search_word}} "</p>
+    </div>
+    {% endif %}
+    <div >
+    <div class="container ">
+        <div class="row mx_auto">
+            {%for each in products %}
+            <div class=" card-margin row   col-md-4 ">
+                <div class="card card-center   " style="width: 18rem;">
+                    <a href="{{each.get_url}}"> <img src="{{each.pro_image.url}}" class="card-img-top item" alt="{{each.pro_name}}"> </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ each.pro_name }}</h5>
+                        <p class="card-text"> Price : ₹{{ each.pro_price }}</p>
+                        {% if each.pro_stock <= 0 %}
+                            <p class="btn btn-danger"> Out of stock </p>
+                        {% else %}
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <div class=" no-result-center  nav-heading ">
+                    <p> Sorry no result found for "{{search_word}}"</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+
+{% endblock %}
